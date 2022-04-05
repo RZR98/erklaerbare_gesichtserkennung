@@ -1,0 +1,10 @@
+/.idea
+.idea
+/noise_chops
+/chopped_images_temp
+/chopped_img_temp
+/.ipynb_checkpoints
+/__pycache__
+/pytorch_save
+noise_images.jpg
+/data/temp
