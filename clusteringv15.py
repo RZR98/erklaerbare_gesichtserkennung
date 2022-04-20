@@ -33,6 +33,23 @@ def add_noise(img_piece, sigma=25, blending_factor=0.5, show_image=False):
 
     return img_with_noise
 
+def add_noise_single(img, landmark, sigma=25, show_image=False):
+    img_noise = Image.effect_noise((landmark[2] - landmark[0], landmark[3] - landmark[1]), sigma).convert('RGB')
+    img_with_noise = img.copy()
+
+    img_with_noise.paste(img_noise, box=landmark, mask=None)
+    if show_image:
+        img_with_noise.show()
+
+    return img_with_noise
+
+def add_noise_levels(img, landmark, save_path=''):
+    noise_factors = np.arange(0,1,0.2)
+    for noise_factor in noise_factors:
+        img_with_noise = add_noise_single(img, landmark)
+        Image.blend(img,img_with_noise, noise_factor).save((save_path + '/noise_test_' + str(noise_factor) + '.jpg'))
+    return
+
 def get_feature_bboxes(img, boxes, landmarks,save_path=''):
     """
     calculates the bounding box coordinates for eyes, nose and mouth scaled down to a 160x160 picture
@@ -224,7 +241,7 @@ def plot_pca(comp_dict):
         plt.ylabel('Percentage of Explained Variance')
         plt.xlabel('Principal Component')
         plt.title(comp)
-        #plt.show()
+        plt.show()
         i=0
         dim=0
         sco=0
